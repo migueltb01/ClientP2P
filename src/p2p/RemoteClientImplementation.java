@@ -17,4 +17,9 @@ public class RemoteClientImplementation extends UnicastRemoteObject implements R
     public void requestFriendship(String requester) throws RemoteException {
 
     }
+
+    @Override
+    public void endChat(String username) throws RemoteException {
+
+    }
 }

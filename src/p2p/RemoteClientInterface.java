@@ -11,4 +11,6 @@ public interface RemoteClientInterface extends Remote {
 
     void requestFriendship(String requester) throws RemoteException;
 
+    void endChat(String username) throws RemoteException;
+
 }
