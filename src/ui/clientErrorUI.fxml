@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #EEE;" stylesheets="@style/material-fx-v0_3.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientErrorUI">
+   <children>
+      <VBox alignment="TOP_CENTER" prefWidth="473.0" styleClass="card">
+         <children>
+            <Label fx:id="labelMessage" alignment="CENTER" contentDisplay="CENTER" prefWidth="441.0" text="Mensaje">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <Button fx:id="buttonAccept" defaultButton="true" mnemonicParsing="false" styleClass="button-raised" text="ACEPTAR" />
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>
