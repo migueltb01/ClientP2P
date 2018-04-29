@@ -5,8 +5,8 @@ package exceptions;
 // username that is already in use.
 public class RepeatedUsernameException extends Exception {
 
-	// Constructor
-	public RepeatedUsernameException() {
-		super("cannot register user - username already in use");
-	}
+    // Constructor
+    public RepeatedUsernameException() {
+        super("cannot register user - username already in use");
+    }
 }

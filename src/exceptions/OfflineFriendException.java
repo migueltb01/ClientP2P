@@ -5,8 +5,8 @@ package exceptions;
 // is not online.
 public class OfflineFriendException extends Exception {
 
-	// Constructor
-	public OfflineFriendException() {
-		super("cannot start chat - specified user is offline");
-	}
+    // Constructor
+    public OfflineFriendException() {
+        super("cannot start chat - specified user is offline");
+    }
 }

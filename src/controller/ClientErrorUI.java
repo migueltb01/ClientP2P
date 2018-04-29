@@ -14,11 +14,12 @@ public class ClientErrorUI {
     Label labelMessage;
 
     @FXML
-    private void initialize(){
-        buttonAccept.setOnAction(event -> ((Stage)buttonAccept.getScene().getWindow()).close());
+    private void initialize() {
+        buttonAccept.setOnAction(event -> ((Stage) buttonAccept.getScene().getWindow()).close());
     }
 
-    public void setError(String error){
+    public void setError(String error) {
         labelMessage.setText(error);
+        System.out.println(error);
     }
 }

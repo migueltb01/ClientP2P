@@ -5,8 +5,8 @@ package exceptions;
 // friends with.
 public class FriendNotFoundException extends Exception {
 
-	// Constructor
-	public FriendNotFoundException() {
-		super("cannot unfriend user - specified user is not in friends list");
-	}
+    // Constructor
+    public FriendNotFoundException() {
+        super("cannot unfriend user - specified user is not in friends list");
+    }
 }

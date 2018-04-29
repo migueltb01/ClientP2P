@@ -1,144 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.TextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
 <StackPane prefHeight="399.0" prefWidth="367.0" style="-fx-background-color: #EEE;" stylesheets="@style/material-fx-v0_3.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientLoginUI">
-   <children>
-      <VBox fx:id="vBoxLogin" alignment="TOP_CENTER" fillWidth="false" prefHeight="425.0" prefWidth="388.0" styleClass="card" stylesheets="@style/material-fx-v0_3.css">
-         <children>
-            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="339.0">
-               <children>
-                  <ImageView fitHeight="154.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/dingDingFilled.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" prefHeight="150.0" prefWidth="217.0" style="-fx-text-color: #161a3f;" text="dingDing" textFill="#161a3f">
-                     <font>
-                        <Font name="System Bold" size="41.0" />
-                     </font>
-                  </Label>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="25.0" />
-               </VBox.margin>
-            </HBox>
-            <GridPane fx:id="gridPaneLogin" hgap="10.0" prefHeight="60.0" prefWidth="333.0" vgap="20.0">
-               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="34.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="287.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <TextField fx:id="textFieldUser" prefHeight="32.0" prefWidth="350.0" promptText="Nombre de usuario" text="migueltb01" GridPane.columnIndex="1" />
-                  <PasswordField fx:id="passwordFieldPassword" prefHeight="32.0" prefWidth="350.0" promptText="Contraseña" text="" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </PasswordField>
-                  <MaterialDesignIconView fill="#777777" glyphName="ACCOUNT" size="20" />
-                  <MaterialDesignIconView fill="#777777" glyphName="LOCK" size="20" GridPane.rowIndex="1" />
-                  <Label fx:id="labelNoMatchLogin" text="Error de conexión" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-            </GridPane>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="317.0" prefWidth="200.0" spacing="20.0">
-               <children>
-                  <Button fx:id="buttonLogin" mnemonicParsing="false" styleClass="button-raised" stylesheets="@style/material-fx-v0_3.css" text="LOGIN" />
-                  <Button fx:id="buttonRegister" mnemonicParsing="false" styleClass="button-raised" stylesheets="@style/material-fx-v0_3.css" text="REGISTRO" />
-               </children>
-            </HBox>
-            <ProgressIndicator fx:id="progressIndicator" prefHeight="114.0" prefWidth="347.0" stylesheets="@style/material-fx-v0_3.css" visible="false" />
-         </children>
-      </VBox>
-      <VBox fx:id="vBoxRegister" alignment="TOP_CENTER" fillWidth="false" prefHeight="425.0" prefWidth="388.0" styleClass="card" stylesheets="@style/material-fx-v0_3.css">
-         <children>
-            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="339.0">
-               <children>
-                  <ImageView fitHeight="154.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/dingDingFilled.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" prefHeight="150.0" prefWidth="217.0" style="-fx-text-color: #161a3f;" text="dingDing" textFill="#161a3f">
-                     <font>
-                        <Font name="System Bold" size="41.0" />
-                     </font>
-                  </Label>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="25.0" />
-               </VBox.margin>
-            </HBox>
-            <GridPane fx:id="gridPaneRegister" hgap="10.0" prefHeight="60.0" prefWidth="333.0" vgap="20.0">
-               <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="34.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="287.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <TextField fx:id="textFieldUserRegister" prefHeight="32.0" prefWidth="350.0" promptText="Nombre de usuario" GridPane.columnIndex="1" />
-                  <PasswordField fx:id="passwordFieldPasswordRegister" prefHeight="32.0" prefWidth="350.0" promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </PasswordField>
-                  <MaterialDesignIconView fill="#777777" glyphName="ACCOUNT" size="20" />
-                  <MaterialDesignIconView fill="#777777" glyphName="LOCK" size="20" GridPane.rowIndex="1" />
-                  <PasswordField fx:id="passwordFieldRepeatPasswordRegister" prefHeight="32.0" prefWidth="350.0" promptText="Repetir contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </PasswordField>
-                  <MaterialDesignIconView fill="#777777" glyphName="PLUS_CIRCLE" size="20" GridPane.rowIndex="2" />
-                  <Label fx:id="labelNoMatchRegister" prefHeight="81.0" prefWidth="286.0" text="Las contraseñas no coinciden" textFill="RED" visible="false" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-            </GridPane>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="99.0" prefWidth="200.0" spacing="20.0">
-               <children>
-                  <Button fx:id="buttonSubmitRegister" mnemonicParsing="false" styleClass="button-raised" stylesheets="@style/material-fx-v0_3.css" text="REGISTRO" />
-                  <Button fx:id="buttonCancelRegister" mnemonicParsing="false" styleClass="button-raised" text="CANCELAR" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
+    <children>
+        <VBox fx:id="vBoxLogin" alignment="TOP_CENTER" fillWidth="false" prefHeight="425.0" prefWidth="388.0"
+              styleClass="card" stylesheets="@style/material-fx-v0_3.css">
+            <children>
+                <HBox alignment="CENTER" prefHeight="150.0" prefWidth="339.0">
+                    <children>
+                        <ImageView fitHeight="154.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@img/dingDingFilled.png"/>
+                            </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="150.0" prefWidth="217.0" style="-fx-text-color: #161a3f;"
+                               text="dingDing" textFill="#161a3f">
+                            <font>
+                                <Font name="System Bold" size="41.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="25.0"/>
+                    </VBox.margin>
+                </HBox>
+                <GridPane fx:id="gridPaneLogin" hgap="10.0" prefHeight="60.0" prefWidth="333.0" vgap="20.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0"
+                                           prefWidth="34.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="287.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <TextField fx:id="textFieldUser" prefHeight="32.0" prefWidth="350.0"
+                                   promptText="Nombre de usuario" text="migueltb01" GridPane.columnIndex="1"/>
+                        <PasswordField fx:id="passwordFieldPassword" prefHeight="32.0" prefWidth="350.0"
+                                       promptText="Contraseña" text="" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <opaqueInsets>
+                                <Insets/>
+                            </opaqueInsets>
+                        </PasswordField>
+                        <MaterialDesignIconView fill="#777777" glyphName="ACCOUNT" size="20"/>
+                        <MaterialDesignIconView fill="#777777" glyphName="LOCK" size="20" GridPane.rowIndex="1"/>
+                        <Label fx:id="labelNoMatchLogin" text="Error de conexión" textFill="RED" visible="false"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                    <padding>
+                        <Insets right="5.0"/>
+                    </padding>
+                </GridPane>
+                <HBox alignment="BOTTOM_CENTER" prefHeight="317.0" prefWidth="200.0" spacing="20.0">
+                    <children>
+                        <Button fx:id="buttonLogin" mnemonicParsing="false" styleClass="button-raised"
+                                stylesheets="@style/material-fx-v0_3.css" text="LOGIN"/>
+                        <Button fx:id="buttonRegister" mnemonicParsing="false" styleClass="button-raised"
+                                stylesheets="@style/material-fx-v0_3.css" text="REGISTRO"/>
+                    </children>
+                </HBox>
+                <ProgressIndicator fx:id="progressIndicator" prefHeight="114.0" prefWidth="347.0"
+                                   stylesheets="@style/material-fx-v0_3.css" visible="false"/>
+            </children>
+        </VBox>
+        <VBox fx:id="vBoxRegister" alignment="TOP_CENTER" fillWidth="false" prefHeight="425.0" prefWidth="388.0"
+              styleClass="card" stylesheets="@style/material-fx-v0_3.css">
+            <children>
+                <HBox alignment="CENTER" prefHeight="150.0" prefWidth="339.0">
+                    <children>
+                        <ImageView fitHeight="154.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@img/dingDingFilled.png"/>
+                            </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="150.0" prefWidth="217.0" style="-fx-text-color: #161a3f;"
+                               text="dingDing" textFill="#161a3f">
+                            <font>
+                                <Font name="System Bold" size="41.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="25.0"/>
+                    </VBox.margin>
+                </HBox>
+                <GridPane fx:id="gridPaneRegister" hgap="10.0" prefHeight="60.0" prefWidth="333.0" vgap="20.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0"
+                                           prefWidth="34.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="287.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <children>
+                        <TextField fx:id="textFieldUserRegister" prefHeight="32.0" prefWidth="350.0"
+                                   promptText="Nombre de usuario" GridPane.columnIndex="1"/>
+                        <PasswordField fx:id="passwordFieldPasswordRegister" prefHeight="32.0" prefWidth="350.0"
+                                       promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <opaqueInsets>
+                                <Insets/>
+                            </opaqueInsets>
+                        </PasswordField>
+                        <MaterialDesignIconView fill="#777777" glyphName="ACCOUNT" size="20"/>
+                        <MaterialDesignIconView fill="#777777" glyphName="LOCK" size="20" GridPane.rowIndex="1"/>
+                        <PasswordField fx:id="passwordFieldRepeatPasswordRegister" prefHeight="32.0" prefWidth="350.0"
+                                       promptText="Repetir contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <opaqueInsets>
+                                <Insets/>
+                            </opaqueInsets>
+                        </PasswordField>
+                        <MaterialDesignIconView fill="#777777" glyphName="PLUS_CIRCLE" size="20" GridPane.rowIndex="2"/>
+                        <Label fx:id="labelNoMatchRegister" prefHeight="81.0" prefWidth="286.0"
+                               text="Las contraseñas no coinciden" textFill="RED" visible="false" wrapText="true"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                    <padding>
+                        <Insets right="5.0"/>
+                    </padding>
+                </GridPane>
+                <HBox alignment="BOTTOM_CENTER" prefHeight="39.0" prefWidth="324.0" spacing="20.0">
+                    <children>
+                        <Button fx:id="buttonSubmitRegister" disable="true" mnemonicParsing="false"
+                                styleClass="button-raised" stylesheets="@style/material-fx-v0_3.css" text="REGISTRO"/>
+                        <Button fx:id="buttonCancelRegister" mnemonicParsing="false" styleClass="button-raised"
+                                text="CANCELAR"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
 </StackPane>

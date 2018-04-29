@@ -1,6 +1,5 @@
 package controller;
 
-import p2p.*;
 import exceptions.PasswordMatchException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -20,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import p2p.Connection;
+import p2p.User;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -69,6 +70,23 @@ public class ClientLoginUI {
     @FXML
     TextField passwordFieldRepeatPasswordRegister;
 
+    private static String sha256(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     @FXML
     private void initialize() {
 
@@ -112,6 +130,7 @@ public class ClientLoginUI {
                         Connection.getConnection().getServerObject().logIn(textFieldUser.getText(),
                                 sha256(passwordFieldPassword.getText()),
                                 Connection.getConnection().getClientObject()));
+                System.out.println(User.getUser().getFriends());
                 callBaseScreen();
 
             } catch (Exception e) {
@@ -119,10 +138,9 @@ public class ClientLoginUI {
                 gridPaneLogin.setVisible(true);
                 buttonLogin.setDisable(false);
                 buttonRegister.setDisable(false);
-                labelNoMatchLogin.setText(e.getMessage());
-                labelNoMatchLogin.setVisible(true);
+
                 try {
-                    showError(e.getMessage(),event);
+                    showError(e.getMessage(), event);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -158,12 +176,34 @@ public class ClientLoginUI {
             try {
                 if (!passwordFieldPasswordRegister.getText().equals(passwordFieldRepeatPasswordRegister.getText()))
                     throw new PasswordMatchException();
-
+                Connection.connect();
                 Connection.getConnection().getServerObject().registerUser(textFieldUserRegister.getText(), sha256(passwordFieldPasswordRegister.getText()));
+                User.setUser(textFieldUserRegister.getText(), sha256(passwordFieldPasswordRegister.getText()),
+                        Connection.getConnection().getServerObject().logIn(textFieldUserRegister.getText(),
+                                sha256(passwordFieldPasswordRegister.getText()),
+                                Connection.getConnection().getClientObject()));
+                System.out.println(User.getUser().getFriends());
+                callBaseScreen();
 
             } catch (Exception e) {
-                labelNoMatchRegister.setText(e.getMessage());
-                labelNoMatchRegister.setVisible(true);
+                progressIndicator.setVisible(false);
+                gridPaneRegister.setVisible(true);
+                buttonSubmitRegister.setDisable(false);
+                buttonCancelRegister.setDisable(false);
+
+                try {
+                    showError(e.getMessage(), event);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        passwordFieldRepeatPasswordRegister.setOnKeyTyped(event -> {
+            if (passwordFieldRepeatPasswordRegister.getText().equals(passwordFieldPasswordRegister.getText())) {
+                buttonSubmitRegister.setDisable(false);
+            } else {
+                buttonSubmitRegister.setDisable(true);
             }
         });
     }
@@ -192,24 +232,6 @@ public class ClientLoginUI {
 
     }
 
-    private static String sha256(String base) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes("UTF-8"));
-            StringBuffer hexString = new StringBuffer();
-
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-
-            return hexString.toString();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     public void showError(String error, Event event) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../ui/clientErrorUI.fxml"));
@@ -221,7 +243,7 @@ public class ClientLoginUI {
         stage.setTitle("Error");
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(
-                ((Node)event.getSource()).getScene().getWindow() );
+                ((Node) event.getSource()).getScene().getWindow());
 
         controller.setError(error);
         stage.show();

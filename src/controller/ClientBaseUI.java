@@ -3,8 +3,8 @@ package controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,12 +15,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import p2p.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import p2p.Connection;
+import p2p.User;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 
 public class ClientBaseUI {
@@ -65,6 +68,12 @@ public class ClientBaseUI {
     Button buttonRejectRequest;
     @FXML
     ListView<String> listViewRequests;
+    @FXML
+    ListView<String> listViewResults;
+    @FXML
+    TextField textFieldSearch;
+    @FXML
+    Button buttonSendRequest;
     //----------------------------------------------------------------------------------------------------------ACCOUNT
     @FXML
     Button buttonAccount;
@@ -90,6 +99,13 @@ public class ClientBaseUI {
         buttonAttach.setDisable(true);
         listViewChat.setDisable(true);
         textFieldMessage.setDisable(true);
+        ArrayList<String> users = null;
+        try {
+            users = Connection.getConnection().getServerObject().searchUsers("");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        listViewResults.setItems(FXCollections.observableArrayList(users));
 
         initializeAnimations();
         initializeEvents();
@@ -156,13 +172,37 @@ public class ClientBaseUI {
                     );
 
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());//----------------------------------------------------------------------------------------------------------------------REVISE THIS!
+                    showError(e.getMessage());
                 }
             }
         });
 
         //----------------------------------------------------------------------------------------------REQUESTS EVENTS
 
+        textFieldSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                buttonAcceptRequest.setDisable(true);
+                listViewResults.getSelectionModel().clearSelection();
+                ArrayList<String> users = Connection.getConnection().getServerObject().searchUsers(newValue);
+                listViewResults.setItems(FXCollections.observableArrayList(users));
+
+            } catch (Exception e) {
+                showError(e.getMessage());
+            }
+        });
+
+        listViewResults.setOnMouseClicked(event -> {
+            if (!listViewResults.getSelectionModel().isEmpty())
+                buttonSendRequest.setDisable(false);
+        });
+
+        buttonSendRequest.setOnAction(event -> {
+            try {
+                Connection.getConnection().getServerObject().addFriend(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword(), listViewResults.getSelectionModel().getSelectedItem());
+            } catch (Exception e) {
+                showError(e.getMessage());
+            }
+        });
 
         //-----------------------------------------------------------------------------------------------ACCOUNT EVENTS
 
@@ -172,13 +212,9 @@ public class ClientBaseUI {
 
         buttonDeleteAccount.setOnAction(event -> {
             try {
-                Connection.getConnection().getServerObject().deleteUser(Connection.getConnection().getClientObject(),User.getUser().getUsername(),User.getUser().getPassword());
+                Connection.getConnection().getServerObject().deleteUser(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword());
             } catch (Exception e) {
-                try {
-                    showError(e.getMessage(),event);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                showError(e.getMessage());
             }
         });
 
@@ -189,11 +225,16 @@ public class ClientBaseUI {
         friends.addAll(User.getUser().getFriends());
     }
 
-    public void showError(String error, Event event) throws IOException {
+    public void showError(String error) {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../ui/clientErrorUI.fxml"));
 
-        Parent root = fxmlLoader.load();
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ClientErrorUI controller = fxmlLoader.getController();
         controller.setError(error);
 
@@ -201,7 +242,7 @@ public class ClientBaseUI {
         stage.setTitle("Error");
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(
-                ((Node)event.getSource()).getScene().getWindow() );
+                ((Node) buttonFriends).getScene().getWindow());
         stage.show();
     }
 }

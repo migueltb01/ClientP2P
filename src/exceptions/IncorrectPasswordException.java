@@ -5,8 +5,8 @@ package exceptions;
 // user's. 
 public class IncorrectPasswordException extends Exception {
 
-	// Constructor
-	public IncorrectPasswordException() {
-		super("cannot perform operation - wrong password"); 
-	}
+    // Constructor
+    public IncorrectPasswordException() {
+        super("cannot perform operation - wrong password");
+    }
 }

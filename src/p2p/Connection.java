@@ -14,12 +14,11 @@ public class Connection {
         this.serverObject = serverObject;
         this.clientObject = clientObject;
     }
-    
-    public static Connection getConnection(){
+
+    public static Connection getConnection() {
         if (instance == null) {
             return null;
-        }
-        else return instance;
+        } else return instance;
     }
 
     public static Connection connect() throws RemoteException, NotBoundException, MalformedURLException {
@@ -31,7 +30,7 @@ public class Connection {
                 new RemoteClientImplementation();
 
         if (instance == null) {
-            instance = new Connection(serverObject,clientObject);
+            instance = new Connection(serverObject, clientObject);
         }
 
         return instance;

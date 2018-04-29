@@ -5,8 +5,8 @@ package exceptions;
 // who is already their friend.
 public class RepeatedFriendshipException extends Exception {
 
-	// Constructor
-	public RepeatedFriendshipException() {
-		super("cannot send request - requested user is already friends with the requester");
-	}
+    // Constructor
+    public RepeatedFriendshipException() {
+        super("cannot send request - requested user is already friends with the requester");
+    }
 }

@@ -1,6 +1,5 @@
 <component name="ArtifactManager">
   <artifact type="javafx" name="JavaFXApp">
-    <output-path />
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="sample.Main" />

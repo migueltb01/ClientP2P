@@ -8,8 +8,12 @@ import javafx.stage.Stage;
 
 public class ClientMain extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/clientLoginUI.fxml"));
@@ -18,10 +22,5 @@ public class ClientMain extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
