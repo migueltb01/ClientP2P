@@ -4,6 +4,7 @@ import exceptions.PasswordMatchException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -221,6 +222,10 @@ public class ClientLoginUI {
         primaryStage.setY((screenBounds.getHeight() - height) / 2);
         final Scene scene = new Scene(new Group(), width, height);
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
         primaryStage.show();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/clientBaseUI.fxml"));

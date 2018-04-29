@@ -14,7 +14,7 @@
                 <HBox alignment="CENTER" prefHeight="26.0" prefWidth="311.0" spacing="10.0">
                     <children>
                         <Button fx:id="buttonFriends" defaultButton="true" mnemonicParsing="false" prefHeight="40.0"
-                                prefWidth="117.0" styleClass="button-raised" text="AMIGOS" HBox.hgrow="ALWAYS">
+                                prefWidth="108.0" styleClass="button-raised" text="AMIGOS" HBox.hgrow="ALWAYS">
                             <graphic>
                                 <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_MULTIPLE" size="20"/>
                             </graphic>
@@ -26,7 +26,7 @@
                             </graphic>
                         </Button>
                         <Button fx:id="buttonAccount" defaultButton="true" mnemonicParsing="false" prefHeight="40.0"
-                                prefWidth="118.0" styleClass="button-raised" text="CUENTA" HBox.hgrow="ALWAYS">
+                                prefWidth="110.0" styleClass="button-raised" text="CUENTA" HBox.hgrow="ALWAYS">
                             <graphic>
                                 <MaterialDesignIconView fill="WHITE" glyphName="SETTINGS" size="20"/>
                             </graphic>
@@ -116,8 +116,7 @@
                                 </Button>
                             </children>
                         </VBox>
-                        <VBox fx:id="vBoxAccount" prefHeight="734.0" prefWidth="395.0" spacing="15.0" styleClass="card"
-                              visible="false">
+                        <VBox fx:id="vBoxAccount" prefHeight="734.0" prefWidth="395.0" spacing="15.0" styleClass="card">
                             <children>
                                 <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="279.0" spacing="10.0">
                                     <children>
@@ -142,22 +141,20 @@
                                         <Label fx:id="labelNumberOfFriends" text="123"/>
                                     </children>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="363.0" spacing="10.0">
-                                    <children>
-                                        <Button fx:id="buttonDeleteAccount" mnemonicParsing="false" prefHeight="40.0"
-                                                prefWidth="140.0" styleClass="button-raised" text="BORRAR">
-                                            <graphic>
-                                                <MaterialDesignIconView fill="#2196f3" glyphName="DELETE" size="20"/>
-                                            </graphic>
-                                        </Button>
-                                        <Button fx:id="buttonChangePassword" mnemonicParsing="false" prefHeight="40.0"
-                                                prefWidth="233.0" styleClass="button-raised" text="CAMBIAR CONTRASEÑA">
-                                            <graphic>
-                                                <MaterialDesignIconView fill="#2196f3" glyphName="LOCK" size="20"/>
-                                            </graphic>
-                                        </Button>
-                                    </children>
-                                </HBox>
+                                <Button fx:id="buttonDeleteAccount" defaultButton="true" mnemonicParsing="false"
+                                        prefHeight="40.0" prefWidth="234.0"
+                                        style="-fx-background-color: #FF3333; colo: ;" styleClass="button-raised"
+                                        text="BORRAR CUENTA">
+                                    <graphic>
+                                        <MaterialDesignIconView fill="WHITE" glyphName="DELETE" size="20"/>
+                                    </graphic>
+                                </Button>
+                                <Button fx:id="buttonChangePassword" mnemonicParsing="false" prefHeight="40.0"
+                                        prefWidth="233.0" styleClass="button-raised" text="CAMBIAR CONTRASEÑA">
+                                    <graphic>
+                                        <MaterialDesignIconView fill="#2196f3" glyphName="LOCK" size="20"/>
+                                    </graphic>
+                                </Button>
                             </children>
                         </VBox>
                     </children>

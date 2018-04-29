@@ -99,13 +99,15 @@ public class ClientBaseUI {
         buttonAttach.setDisable(true);
         listViewChat.setDisable(true);
         textFieldMessage.setDisable(true);
+
         ArrayList<String> users = null;
+        ArrayList<String> requests = null;
         try {
             users = Connection.getConnection().getServerObject().searchUsers("");
+            listViewResults.setItems(FXCollections.observableArrayList(users));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        listViewResults.setItems(FXCollections.observableArrayList(users));
 
         initializeAnimations();
         initializeEvents();
@@ -223,6 +225,7 @@ public class ClientBaseUI {
     public void setFriends() {
         ObservableList<String> friends = listViewFriends.getItems();
         friends.addAll(User.getUser().getFriends());
+        labelNumberOfFriends.setText(String.valueOf(listViewResults.getItems().size()));
     }
 
     public void showError(String error) {
