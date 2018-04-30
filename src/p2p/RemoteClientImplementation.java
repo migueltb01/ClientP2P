@@ -14,6 +14,11 @@ public class RemoteClientImplementation extends UnicastRemoteObject implements R
     }
 
     @Override
+    public void notifyOffline(String username) throws RemoteException {
+
+    }
+
+    @Override
     public void requestFriendship(String requester) throws RemoteException {
 
     }
