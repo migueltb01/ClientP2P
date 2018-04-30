@@ -1,8 +1,9 @@
 package p2p;
 
 import java.net.MalformedURLException;
-import java.rmi.*;
-import java.rmi.server.*;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 public class Connection {
     private static Connection instance = null;
@@ -21,7 +22,6 @@ public class Connection {
     }
 
     public static Connection connect() throws RemoteException, NotBoundException, MalformedURLException {
-        System.setSecurityManager(new RMISecurityManager());
 
         String registryURL =
                 "rmi://localhost:" + 1099 + "/P2PServer";
