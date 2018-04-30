@@ -143,7 +143,7 @@
                                 </HBox>
                                 <Button fx:id="buttonDeleteAccount" defaultButton="true" mnemonicParsing="false"
                                         prefHeight="40.0" prefWidth="234.0"
-                                        style="-fx-background-color: #FF3333; colo: ;" styleClass="button-raised"
+                                        style="-fx-background-color: #FF3333;" styleClass="button-raised"
                                         text="BORRAR CUENTA">
                                     <graphic>
                                         <MaterialDesignIconView fill="WHITE" glyphName="DELETE" size="20"/>
