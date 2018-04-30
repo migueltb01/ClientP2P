@@ -5,7 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -140,11 +139,7 @@ public class ClientLoginUI {
                 buttonLogin.setDisable(false);
                 buttonRegister.setDisable(false);
 
-                try {
-                    showError(e.getMessage(), event);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                showError(e.getMessage());
             }
 
         });
@@ -192,11 +187,7 @@ public class ClientLoginUI {
                 buttonSubmitRegister.setDisable(false);
                 buttonCancelRegister.setDisable(false);
 
-                try {
-                    showError(e.getMessage(), event);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                showError(e.getMessage());
             }
         });
 
@@ -223,11 +214,14 @@ public class ClientLoginUI {
         final Scene scene = new Scene(new Group(), width, height);
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(event -> {
+            try {
+                Connection.getConnection().getServerObject().logOut(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword());
+            } catch (Exception e) {
+                showError(e.getMessage());
+            }
             Platform.exit();
             System.exit(0);
         });
-        primaryStage.show();
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/clientBaseUI.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("dingDing P2P Messaging");
@@ -237,18 +231,22 @@ public class ClientLoginUI {
 
     }
 
-    public void showError(String error, Event event) throws IOException {
+    public void showError(String error) {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../ui/clientErrorUI.fxml"));
 
-        Parent root = fxmlLoader.load();
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ClientErrorUI controller = fxmlLoader.getController();
 
         stage.setScene(new Scene(root));
         stage.setTitle("Error");
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(
-                ((Node) event.getSource()).getScene().getWindow());
+        stage.initOwner(buttonLogin.getScene().getWindow());
 
         controller.setError(error);
         stage.show();

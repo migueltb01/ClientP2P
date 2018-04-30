@@ -63,6 +63,10 @@ public class User {
         openedConnections.put(username, clientObject);
     }
 
+    public static void destroy() {
+        instance = null;
+    }
+
     public RemoteClientInterface getFriendConnection(String username) {
         return openedConnections.get(username);
     }

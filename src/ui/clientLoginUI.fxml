@@ -43,9 +43,10 @@
                     </rowConstraints>
                     <children>
                         <TextField fx:id="textFieldUser" prefHeight="32.0" prefWidth="350.0"
-                                   promptText="Nombre de usuario" text="migueltb01" GridPane.columnIndex="1"/>
+                                   promptText="Nombre de usuario" text="miguel" GridPane.columnIndex="1"/>
                         <PasswordField fx:id="passwordFieldPassword" prefHeight="32.0" prefWidth="350.0"
-                                       promptText="Contraseña" text="" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       promptText="Contraseña" text="password" GridPane.columnIndex="1"
+                                       GridPane.rowIndex="1">
                             <opaqueInsets>
                                 <Insets/>
                             </opaqueInsets>

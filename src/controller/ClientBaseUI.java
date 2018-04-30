@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import p2p.Connection;
@@ -215,6 +218,28 @@ public class ClientBaseUI {
         buttonDeleteAccount.setOnAction(event -> {
             try {
                 Connection.getConnection().getServerObject().deleteUser(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword());
+                User.destroy();
+                Connection.destroy();
+
+                Stage primaryStage = (Stage) ((Node) buttonFriends).getScene().getWindow();
+                primaryStage.close();
+                primaryStage = new Stage();
+
+                double width = 367;
+                double height = 399;
+                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                primaryStage.setX((screenBounds.getWidth() - width) / 2);
+                primaryStage.setY((screenBounds.getHeight() - height) / 2);
+                final Scene scene = new Scene(new Group(), width, height);
+                primaryStage.setScene(scene);
+                primaryStage.setOnCloseRequest(null);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/clientLoginUI.fxml"));
+                Parent root = loader.load();
+                primaryStage.setTitle("dingDing P2P Messaging: Login");
+                primaryStage.setScene(new Scene(root, 367, 399));
+                primaryStage.setResizable(false);
+                primaryStage.show();
+
             } catch (Exception e) {
                 showError(e.getMessage());
             }
