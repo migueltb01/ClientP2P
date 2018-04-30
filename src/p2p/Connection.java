@@ -41,10 +41,6 @@ public class Connection {
         return serverObject;
     }
 
-    public static void destroy() {
-        instance = null;
-    }
-
     public RemoteClientInterface getClientObject() {
         return clientObject;
     }
