@@ -5,7 +5,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="817.0" prefWidth="1211.0" style="-fx-background-color: #DDD;" stylesheets="@style/material-fx-v0_3.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientBaseUI">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="817.0" prefWidth="1211.0" style="-fx-background-color: #EEE;"
+            stylesheets="@style/material-fx-v0_3.css" xmlns="http://javafx.com/javafx/9"
+            fx:controller="controller.ClientBaseUI">
     <children>
         <VBox layoutX="14.0" layoutY="14.0" prefHeight="789.0" prefWidth="395.0" spacing="15.0" styleClass="arrow"
               stylesheets="@style/material-fx-v0_3.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0"
@@ -20,7 +23,7 @@
                             </graphic>
                         </Button>
                         <Button fx:id="buttonRequests" defaultButton="true" mnemonicParsing="false" prefHeight="40.0"
-                                prefWidth="141.0" styleClass="button-raised" text="SOLICITUDES" HBox.hgrow="ALWAYS">
+                                prefWidth="157.0" styleClass="button-raised" text="SOLICITUDES" HBox.hgrow="ALWAYS">
                             <graphic>
                                 <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_MULTIPLE_PLUS" size="20"/>
                             </graphic>
@@ -135,26 +138,25 @@
                                         <Font size="20.0"/>
                                     </font>
                                 </Label>
-                                <HBox prefHeight="29.0" prefWidth="363.0">
+                                <HBox prefHeight="29.0" prefWidth="363.0" spacing="10.0">
                                     <children>
-                                        <Label text="Amigos: "/>
-                                        <Label fx:id="labelNumberOfFriends" text="123"/>
+                                        <Button fx:id="buttonDeleteAccount" defaultButton="true" mnemonicParsing="false"
+                                                prefHeight="40.0" prefWidth="126.0"
+                                                style="-fx-background-color: #FF3333;" styleClass="button-raised"
+                                                text="BORRAR">
+                                            <graphic>
+                                                <MaterialDesignIconView fill="WHITE" glyphName="DELETE" size="20"/>
+                                            </graphic>
+                                        </Button>
+                                        <Button fx:id="buttonChangePassword" defaultButton="true"
+                                                mnemonicParsing="false" prefHeight="40.0" prefWidth="239.0"
+                                                styleClass="button-raised" text="CAMBIAR CONTRASEÑA">
+                                            <graphic>
+                                                <MaterialDesignIconView fill="WHITE" glyphName="LOCK" size="20"/>
+                                            </graphic>
+                                        </Button>
                                     </children>
                                 </HBox>
-                                <Button fx:id="buttonDeleteAccount" defaultButton="true" mnemonicParsing="false"
-                                        prefHeight="40.0" prefWidth="234.0"
-                                        style="-fx-background-color: #FF3333;" styleClass="button-raised"
-                                        text="BORRAR CUENTA">
-                                    <graphic>
-                                        <MaterialDesignIconView fill="WHITE" glyphName="DELETE" size="20"/>
-                                    </graphic>
-                                </Button>
-                                <Button fx:id="buttonChangePassword" mnemonicParsing="false" prefHeight="40.0"
-                                        prefWidth="233.0" styleClass="button-raised" text="CAMBIAR CONTRASEÑA">
-                                    <graphic>
-                                        <MaterialDesignIconView fill="#2196f3" glyphName="LOCK" size="20"/>
-                                    </graphic>
-                                </Button>
                             </children>
                         </VBox>
                     </children>
@@ -169,8 +171,7 @@
                         <Font size="20.0"/>
                     </font>
                 </Label>
-                <ListView fx:id="listViewChat" disable="true" prefHeight="704.0" prefWidth="773.0"
-                          style="-fx-border-color: #FFF;"/>
+                <ListView fx:id="listViewChat" prefHeight="704.0" prefWidth="773.0" style="-fx-border-color: #FFF;"/>
             </children>
         </VBox>
         <Button fx:id="buttonSend" defaultButton="true" disable="true" layoutX="1056.0" layoutY="739.0"

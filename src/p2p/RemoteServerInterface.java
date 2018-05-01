@@ -38,7 +38,7 @@ public interface RemoteServerInterface extends Remote {
             RemoteException;
 
     // Search usernames containing a specific substring
-    public ArrayList<String> searchUsers(String substring) throws RemoteException;
+    public ArrayList<String> searchUsers(String substring, String username) throws RemoteException, SQLException;
 
     // Invoked by online user to add another user as a friend
     public void addFriend(RemoteClientInterface client, String sourceUser, String password, String destinationUser)

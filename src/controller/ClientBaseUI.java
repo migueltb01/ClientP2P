@@ -3,7 +3,10 @@ package controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +25,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import p2p.Connection;
+import p2p.ListHelper;
 import p2p.User;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -49,6 +54,7 @@ public class ClientBaseUI {
     ListView listViewChat;
     @FXML
     Label labelChatUsername;
+    ObservableList chat;
     //----------------------------------------------------------------------------------------------------------FRIENDS
     @FXML
     Button buttonFriends;
@@ -93,22 +99,26 @@ public class ClientBaseUI {
 
     @FXML
     private void initialize() {
-        setFriends();
         vBoxAccount.setTranslateX(-500);
         vBoxRequests.setTranslateX(-500);
         labelUsername.setText(User.getUser().getUsername());
         listViewFriends.getSelectionModel().clearSelection();
         buttonSend.setDisable(true);
         buttonAttach.setDisable(true);
-        listViewChat.setDisable(true);
         textFieldMessage.setDisable(true);
+        listViewChat.setMouseTransparent(true);
+        listViewChat.setFocusTraversable(false);
 
-        ArrayList<String> users = null;
-        ArrayList<String> requests = null;
+        listViewRequests.setItems(ListHelper.getListHelper().getRequests());
+        listViewFriends.setItems(ListHelper.getListHelper().getFriends());
+
+        ArrayList<String> users;
         try {
-            users = Connection.getConnection().getServerObject().searchUsers("");
+            users = Connection.getConnection().getServerObject().searchUsers("", User.getUser().getUsername());
             listViewResults.setItems(FXCollections.observableArrayList(users));
         } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -160,35 +170,57 @@ public class ClientBaseUI {
             timelineAccount.play();
         });
 
-        buttonSend.setOnAction(event -> {
-            ObservableList<String> messages = listViewChat.getItems();
-            messages.add(textFieldMessage.getText());
-        });
-
-        //-----------------------------------------------------------------------------------------------FRIENDS EVENTS
-
-        listViewFriends.setOnMouseClicked(event -> {
-            if (User.getUser().getFriendConnection(listViewFriends.getSelectionModel().getSelectedItem()) == null) {
-                try {
-                    User.getUser().addFriendConnection(listViewFriends.getSelectionModel().getSelectedItem(),
-                            Connection.getConnection().getServerObject().startChat(Connection.getConnection().getClientObject(),
-                                    User.getUser().getUsername(), listViewFriends.getSelectionModel().getSelectedItem(),
-                                    User.getUser().getPassword())
-                    );
-
-                } catch (Exception e) {
-                    showError(e.getMessage());
+        textFieldMessage.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue == "") {
+                    buttonSend.setDisable(true);
+                    buttonAttach.setDisable(true);
+                } else {
+                    buttonSend.setDisable(false);
+                    buttonAttach.setDisable(false);
                 }
             }
         });
 
+        buttonSend.setOnAction(event -> {
+            ObservableList<String> messages = listViewChat.getItems();
+            messages.add(User.getUser().getUsername() + " dijo:\n       " + textFieldMessage.getText());
+            ListHelper.getListHelper().getFriendObject(labelChatUsername.getText()).receiveMessage(User.getUser().getUsername(),
+                    User.getUser().getUsername() + " dijo:\n       " + textFieldMessage.getText());
+            textFieldMessage.setText("");
+        });
+
+        //-----------------------------------------------------------------------------------------------FRIENDS EVENTS
+
+        ListHelper.getListHelper().getFriends().addListener((ListChangeListener<String>) c -> listViewFriends.setItems(ListHelper.getListHelper().getFriends()));
+
+        listViewFriends.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!ListHelper.getListHelper().isChatStarted(newValue)) {
+                    try {
+                        ListHelper.getListHelper().addChat(newValue);
+                        ListHelper.getListHelper().getFriendObject(labelChatUsername.getText()).startChat(User.getUser().getUsername());
+                    } catch (Exception e) {
+                        showError(e.getMessage());
+                    }
+                }
+                chat = ListHelper.getListHelper().getChat(newValue);
+                labelChatUsername.setText(newValue);
+                listViewChat.setItems(chat);
+                buttonSend.setDisable(false);
+                buttonAttach.setDisable(false);
+                textFieldMessage.setDisable(false);
+            }
+        });
         //----------------------------------------------------------------------------------------------REQUESTS EVENTS
 
         textFieldSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                buttonAcceptRequest.setDisable(true);
+                buttonSendRequest.setDisable(true);
                 listViewResults.getSelectionModel().clearSelection();
-                ArrayList<String> users = Connection.getConnection().getServerObject().searchUsers(newValue);
+                ArrayList<String> users = Connection.getConnection().getServerObject().searchUsers(newValue, User.getUser().getUsername());
                 listViewResults.setItems(FXCollections.observableArrayList(users));
 
             } catch (Exception e) {
@@ -196,14 +228,56 @@ public class ClientBaseUI {
             }
         });
 
-        listViewResults.setOnMouseClicked(event -> {
-            if (!listViewResults.getSelectionModel().isEmpty())
-                buttonSendRequest.setDisable(false);
+        ListHelper.getListHelper().getRequests().addListener((ListChangeListener<String>) c -> {
+            listViewRequests.setItems(ListHelper.getListHelper().getRequests());
         });
+
+        listViewRequests.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                buttonAcceptRequest.setDisable(false);
+                buttonRejectRequest.setDisable(false);
+            }
+        });
+
+        buttonAcceptRequest.setOnAction(event -> {
+            try {
+                Connection.getConnection().getServerObject().resolveRequest(Connection.getConnection().getClientObject(),
+                        User.getUser().getPassword(), listViewRequests.getSelectionModel().getSelectedItem(),
+                        User.getUser().getUsername(), true);
+                ListHelper.getListHelper().removeRequest(listViewRequests.getSelectionModel().getSelectedItem());
+                buttonAcceptRequest.setDisable(true);
+                buttonRejectRequest.setDisable(true);
+                listViewRequests.getSelectionModel().clearSelection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        buttonRejectRequest.setOnAction(event -> {
+            try {
+                Connection.getConnection().getServerObject().resolveRequest(Connection.getConnection().getClientObject(),
+                        User.getUser().getPassword(), listViewRequests.getSelectionModel().getSelectedItem(),
+                        User.getUser().getUsername(), false);
+                ListHelper.getListHelper().removeRequest(listViewRequests.getSelectionModel().getSelectedItem());
+                buttonAcceptRequest.setDisable(true);
+                buttonRejectRequest.setDisable(true);
+                listViewRequests.getSelectionModel().clearSelection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        listViewResults.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> buttonSendRequest.setDisable(false));
 
         buttonSendRequest.setOnAction(event -> {
             try {
                 Connection.getConnection().getServerObject().addFriend(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword(), listViewResults.getSelectionModel().getSelectedItem());
+                listViewResults.getSelectionModel().clearSelection();
+                buttonSendRequest.setDisable(true);
+                ArrayList<String> users = Connection.getConnection().getServerObject().searchUsers("", User.getUser().getUsername());
+                listViewResults.setItems(FXCollections.observableArrayList(users));
+
             } catch (Exception e) {
                 showError(e.getMessage());
             }
@@ -245,12 +319,6 @@ public class ClientBaseUI {
             }
         });
 
-    }
-
-    public void setFriends() {
-        ObservableList<String> friends = listViewFriends.getItems();
-        friends.addAll(User.getUser().getFriends());
-        labelNumberOfFriends.setText(String.valueOf(listViewResults.getItems().size()));
     }
 
     public void showError(String error) {

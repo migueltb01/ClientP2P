@@ -20,6 +20,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import p2p.Connection;
+import p2p.ListHelper;
 import p2p.User;
 
 import java.io.IOException;
@@ -123,17 +124,16 @@ public class ClientLoginUI {
             buttonRegister.setDisable(true);
 
             try {
-
-
                 Connection.connect();
-                User.setUser(textFieldUser.getText(), sha256(passwordFieldPassword.getText()),
-                        Connection.getConnection().getServerObject().logIn(textFieldUser.getText(),
-                                sha256(passwordFieldPassword.getText()),
-                                Connection.getConnection().getClientObject()));
-                System.out.println(User.getUser().getFriends());
+                User.setUser(textFieldUser.getText(), sha256(passwordFieldPassword.getText()));
+                ListHelper.getListHelper().getFriends().addAll(Connection.getConnection().getServerObject().logIn(textFieldUser.getText(),
+                        sha256(passwordFieldPassword.getText()),
+                        Connection.getConnection().getClientObject()));
                 callBaseScreen();
 
             } catch (Exception e) {
+                User.destroy();
+                Connection.destroy();
                 progressIndicator.setVisible(false);
                 gridPaneLogin.setVisible(true);
                 buttonLogin.setDisable(false);
@@ -174,14 +174,15 @@ public class ClientLoginUI {
                     throw new PasswordMatchException();
                 Connection.connect();
                 Connection.getConnection().getServerObject().registerUser(textFieldUserRegister.getText(), sha256(passwordFieldPasswordRegister.getText()));
-                User.setUser(textFieldUserRegister.getText(), sha256(passwordFieldPasswordRegister.getText()),
-                        Connection.getConnection().getServerObject().logIn(textFieldUserRegister.getText(),
-                                sha256(passwordFieldPasswordRegister.getText()),
-                                Connection.getConnection().getClientObject()));
-                System.out.println(User.getUser().getFriends());
+                User.setUser(textFieldUserRegister.getText(), sha256(passwordFieldPasswordRegister.getText()));
+                ListHelper.getListHelper().getFriends().addAll(Connection.getConnection().getServerObject().logIn(textFieldUserRegister.getText(),
+                        sha256(passwordFieldPasswordRegister.getText()),
+                        Connection.getConnection().getClientObject()));
                 callBaseScreen();
 
             } catch (Exception e) {
+                User.destroy();
+                Connection.destroy();
                 progressIndicator.setVisible(false);
                 gridPaneRegister.setVisible(true);
                 buttonSubmitRegister.setDisable(false);
