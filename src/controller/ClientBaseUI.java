@@ -322,7 +322,20 @@ public class ClientBaseUI {
         //-----------------------------------------------------------------------------------------------ACCOUNT EVENTS
 
         buttonChangePassword.setOnAction(event -> {
+            textFieldOldPassword.setVisible(true);
+            textFieldNewPassword.setVisible(true);
+            textFieldRepeatPassword.setVisible(true);
 
+            buttonAcceptPassword.setVisible(true);
+        });
+
+        textFieldOldPassword.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (equals(User.getUser().getPassword())) {
+
+                }
+            }
         });
 
         buttonDeleteAccount.setOnAction(event -> {
@@ -354,6 +367,7 @@ public class ClientBaseUI {
                 showError(e.getMessage());
             }
         });
+
 
     }
 
