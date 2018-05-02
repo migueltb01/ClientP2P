@@ -36,6 +36,8 @@ import java.util.ArrayList;
 
 public class ClientBaseUI {
 
+    private static ClientBaseUI instance = null;
+
     @FXML
     Timeline timelineFriends = new Timeline();
     @FXML
@@ -46,8 +48,6 @@ public class ClientBaseUI {
     //-----------------------------------------------------------------------------------------------------------COMMON
     @FXML
     Button buttonSend;
-    @FXML
-    Button buttonAttach;
     @FXML
     TextField textFieldMessage;
     @FXML
@@ -91,40 +91,20 @@ public class ClientBaseUI {
     @FXML
     Label labelUsername;
     @FXML
-    Label labelNumberOfFriends;
+    TextField textFieldOldPassword;
+    @FXML
+    TextField textFieldNewPassword;
+    @FXML
+    TextField textFieldRepeatPassword;
+    @FXML
+    Button buttonAcceptPassword;
     @FXML
     Button buttonDeleteAccount;
     @FXML
     Button buttonChangePassword;
 
-    @FXML
-    private void initialize() {
-        vBoxAccount.setTranslateX(-500);
-        vBoxRequests.setTranslateX(-500);
-        labelUsername.setText(User.getUser().getUsername());
-        listViewFriends.getSelectionModel().clearSelection();
-        buttonSend.setDisable(true);
-        buttonAttach.setDisable(true);
-        textFieldMessage.setDisable(true);
-        listViewChat.setMouseTransparent(true);
-        listViewChat.setFocusTraversable(false);
-
-        listViewRequests.setItems(ListHelper.getListHelper().getRequests());
-        listViewFriends.setItems(ListHelper.getListHelper().getFriends());
-
-        ArrayList<String> users;
-        try {
-            users = Connection.getConnection().getServerObject().searchUsers("", User.getUser().getUsername());
-            listViewResults.setItems(FXCollections.observableArrayList(users));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        initializeAnimations();
-        initializeEvents();
-        timelineFriends.play();
+    public static ClientBaseUI getBaseUI() {
+        return instance;
     }
 
     private void initializeAnimations() {
@@ -154,6 +134,57 @@ public class ClientBaseUI {
         );
     }
 
+    @FXML
+    private void initialize() {
+        instance = this;
+        vBoxAccount.setTranslateX(-500);
+        vBoxRequests.setTranslateX(-500);
+        labelUsername.setText(User.getUser().getUsername());
+        listViewFriends.getSelectionModel().clearSelection();
+        buttonSend.setDisable(true);
+        textFieldMessage.setDisable(true);
+        listViewChat.setMouseTransparent(true);
+        listViewChat.setFocusTraversable(false);
+
+        listViewRequests.setItems(ListHelper.getListHelper().getRequests());
+        listViewFriends.setItems(ListHelper.getListHelper().getFriends());
+
+        ArrayList<String> users;
+        try {
+            users = Connection.getConnection().getServerObject().searchUsers("", User.getUser().getUsername());
+            listViewResults.setItems(FXCollections.observableArrayList(users));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        initializeAnimations();
+        initializeEvents();
+        timelineFriends.play();
+    }
+
+    public void showError(String error) {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../ui/clientErrorUI.fxml"));
+
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ClientErrorUI controller = fxmlLoader.getController();
+        controller.setError(error);
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("Error");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(
+                ((Node) buttonFriends).getScene().getWindow());
+        stage.show();
+    }
+
     private void initializeEvents() {
 
         //------------------------------------------------------------------------------------------------COMMON EVENTS
@@ -175,10 +206,8 @@ public class ClientBaseUI {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (newValue == "") {
                     buttonSend.setDisable(true);
-                    buttonAttach.setDisable(true);
                 } else {
                     buttonSend.setDisable(false);
-                    buttonAttach.setDisable(false);
                 }
             }
         });
@@ -202,19 +231,22 @@ public class ClientBaseUI {
         listViewFriends.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                labelChatUsername.setText(newValue);
-                if (!ListHelper.getListHelper().isChatCreated(newValue)) {
-                    try {
-                        ListHelper.getListHelper().createChat(newValue);
-                        ListHelper.getListHelper().getFriendObject(labelChatUsername.getText()).startChat(User.getUser().getUsername());
-                    } catch (Exception e) {
-                        showError(e.getMessage());
+                if (newValue != null) {
+                    labelChatUsername.setText(newValue);
+                    if (!ListHelper.getListHelper().isChatCreated(newValue)) {
+                        try {
+                            ListHelper.getListHelper().createChat(newValue);
+                            ListHelper.getListHelper().getFriendObject(labelChatUsername.getText()).startChat(User.getUser().getUsername());
+                        } catch (Exception e) {
+                            showError(e.getMessage());
+                        }
                     }
+                    chat = ListHelper.getListHelper().getChat(newValue);
+                    listViewChat.setItems(chat);
+                } else {
+                    labelChatUsername.setText("");
                 }
-                chat = ListHelper.getListHelper().getChat(newValue);
-                listViewChat.setItems(chat);
                 buttonSend.setDisable(false);
-                buttonAttach.setDisable(false);
                 textFieldMessage.setDisable(false);
             }
         });
@@ -325,24 +357,8 @@ public class ClientBaseUI {
 
     }
 
-    public void showError(String error) {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../ui/clientErrorUI.fxml"));
-
-        Parent root = null;
-        try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ClientErrorUI controller = fxmlLoader.getController();
-        controller.setError(error);
-
-        stage.setScene(new Scene(root));
-        stage.setTitle("Error");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(
-                ((Node) buttonFriends).getScene().getWindow());
-        stage.show();
+    public void clearChat() {
+        chat = null;
+        listViewChat.setItems(null);
     }
 }

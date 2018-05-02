@@ -1,5 +1,6 @@
 package p2p;
 
+import controller.ClientBaseUI;
 import exceptions.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,5 +79,6 @@ public class ListHelper {
 
     public void destroyChat(String username) {
         chats.remove(username);
+        ClientBaseUI.getBaseUI().clearChat();
     }
 }

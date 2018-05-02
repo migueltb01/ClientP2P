@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.materialdesignicons.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -157,6 +157,17 @@
                                         </Button>
                                     </children>
                                 </HBox>
+                                <TextField fx:id="textFieldOldPassword" promptText="Contraseña antigua" visible="false">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                </TextField>
+                                <TextField fx:id="textFieldNewPassword" promptText="Contraseña nueva" visible="false"/>
+                                <TextField fx:id="textFieldRepeatPassword" promptText="Repite contraseña nueva"
+                                           visible="false"/>
+                                <Button fx:id="buttonAcceptPassword" defaultButton="true" disable="true"
+                                        mnemonicParsing="false" prefHeight="38.0" prefWidth="377.0"
+                                        styleClass="button-raised" text="ACEPTAR" visible="false"/>
                             </children>
                         </VBox>
                     </children>
@@ -174,14 +185,14 @@
                 <ListView fx:id="listViewChat" prefHeight="704.0" prefWidth="773.0" style="-fx-border-color: #FFF;"/>
             </children>
         </VBox>
-        <Button fx:id="buttonSend" defaultButton="true" disable="true" layoutX="1056.0" layoutY="739.0"
+        <Button fx:id="buttonSend" defaultButton="true" disable="true" layoutX="1133.0" layoutY="738.0"
                 mnemonicParsing="false" prefHeight="64.0" prefWidth="64.0" styleClass="button-raised"
-                AnchorPane.bottomAnchor="14.0">
+                AnchorPane.bottomAnchor="15.0">
             <graphic>
                 <MaterialDesignIconView fill="WHITE" glyphName="SEND" size="40"/>
             </graphic>
         </Button>
-        <AnchorPane layoutX="424.0" layoutY="590.0" prefHeight="64.0" prefWidth="619.0" styleClass="card"
+        <AnchorPane layoutX="424.0" layoutY="590.0" prefHeight="66.0" prefWidth="695.0" styleClass="card"
                     stylesheets="@style/material-fx-v0_3.css" AnchorPane.bottomAnchor="14.0">
             <children>
                 <TextField fx:id="textFieldMessage" disable="true" layoutY="25.0" prefHeight="63.0" prefWidth="682.0"
@@ -190,11 +201,5 @@
                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
             </children>
         </AnchorPane>
-        <Button fx:id="buttonAttach" disable="true" layoutX="1133.0" layoutY="739.0" mnemonicParsing="false"
-                prefHeight="64.0" prefWidth="64.0" style="-fx-background-color: #00BB88;" styleClass="button-raised">
-            <graphic>
-                <MaterialDesignIconView fill="WHITE" glyphName="ATTACHMENT" size="40"/>
-            </graphic>
-        </Button>
     </children>
 </AnchorPane>
