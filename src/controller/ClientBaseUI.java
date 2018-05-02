@@ -1,8 +1,5 @@
 package controller;
 
-import exceptions.IncorrectPasswordException;
-import exceptions.IncorrectSessionException;
-import exceptions.UserNotFoundException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -94,17 +91,25 @@ public class ClientBaseUI {
     @FXML
     Label labelUsername;
     @FXML
-    TextField textFieldOldPassword;
+    TextField passwordFieldOldPassword;
     @FXML
-    TextField textFieldNewPassword;
+    TextField passwordFieldNewPassword;
     @FXML
-    TextField textFieldRepeatPassword;
+    TextField passwordFieldRepeatPassword;
+    @FXML
+    TextField passwordFieldConfirmPassword;
     @FXML
     Button buttonAcceptPassword;
+    @FXML
+    Button buttonConfirmDelete;
     @FXML
     Button buttonDeleteAccount;
     @FXML
     Button buttonChangePassword;
+    @FXML
+    VBox vBoxChangePassword;
+    @FXML
+    VBox vBoxDelete;
 
     public static ClientBaseUI getBaseUI() {
         return instance;
@@ -325,34 +330,33 @@ public class ClientBaseUI {
         //-----------------------------------------------------------------------------------------------ACCOUNT EVENTS
 
         buttonChangePassword.setOnAction(event -> {
-            textFieldOldPassword.setVisible(true);
-            textFieldNewPassword.setVisible(true);
-            textFieldRepeatPassword.setVisible(true);
-
-            buttonAcceptPassword.setVisible(true);
+            vBoxChangePassword.setVisible(true);
+            vBoxDelete.setVisible(false);
         });
 
-        textFieldOldPassword.textProperty().addListener(new ChangeListener<String>() {
+        ChangeListener passwordCheck = new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (User.sha256(newValue).equals(User.getUser().getPassword()) && textFieldNewPassword.getText().equals(textFieldRepeatPassword.getText())) {
+                if (User.sha256(passwordFieldOldPassword.getText()).equals(User.getUser().getPassword()) && passwordFieldNewPassword.getText().equals(passwordFieldRepeatPassword.getText()) && passwordFieldNewPassword.getText().length() >= 1) {
                     buttonAcceptPassword.setDisable(false);
                 } else {
                     buttonAcceptPassword.setDisable(true);
                 }
             }
-        });
+        };
+
+        passwordFieldOldPassword.textProperty().addListener(passwordCheck);
+
+        passwordFieldNewPassword.textProperty().addListener(passwordCheck);
+
+        passwordFieldConfirmPassword.textProperty().addListener(passwordCheck);
 
         buttonAcceptPassword.setOnAction(event -> {
             try {
-                Connection.getConnection().getServerObject().changePassword(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword(), User.sha256(textFieldNewPassword.getText()));
+                Connection.getConnection().getServerObject().changePassword(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword(), User.sha256(passwordFieldNewPassword.getText()));
                 buttonAcceptPassword.setDisable(false);
 
-                textFieldOldPassword.setVisible(false);
-                textFieldNewPassword.setVisible(false);
-                textFieldRepeatPassword.setVisible(false);
-
-                buttonAcceptPassword.setVisible(false);
+                vBoxChangePassword.setVisible(false);
 
                 showError("Contraseña cambiada");
 
@@ -362,6 +366,22 @@ public class ClientBaseUI {
         });
 
         buttonDeleteAccount.setOnAction(event -> {
+            vBoxDelete.setVisible(true);
+            vBoxChangePassword.setVisible(false);
+        });
+
+        passwordFieldConfirmPassword.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (User.sha256(passwordFieldConfirmPassword.getText()).equals(User.getUser().getPassword())) {
+                    buttonConfirmDelete.setDisable(false);
+                } else {
+                    buttonConfirmDelete.setDisable(true);
+                }
+            }
+        });
+
+        buttonConfirmDelete.setOnAction(event -> {
             try {
                 Connection.getConnection().getServerObject().deleteUser(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword());
                 User.destroy();

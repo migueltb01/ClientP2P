@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.materialdesignicons.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -157,17 +157,36 @@
                                         </Button>
                                     </children>
                                 </HBox>
-                                <TextField fx:id="textFieldOldPassword" promptText="Contraseña antigua" visible="false">
-                                    <VBox.margin>
-                                        <Insets top="30.0"/>
-                                    </VBox.margin>
-                                </TextField>
-                                <TextField fx:id="textFieldNewPassword" promptText="Contraseña nueva" visible="false"/>
-                                <TextField fx:id="textFieldRepeatPassword" promptText="Repite contraseña nueva"
-                                           visible="false"/>
-                                <Button fx:id="buttonAcceptPassword" defaultButton="true" disable="true"
-                                        mnemonicParsing="false" prefHeight="38.0" prefWidth="377.0"
-                                        styleClass="button-raised" text="ACEPTAR" visible="false"/>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                    <children>
+                                        <VBox fx:id="vBoxChangePassword" prefHeight="140.0" prefWidth="363.0"
+                                              spacing="10.0" visible="false">
+                                            <children>
+                                                <PasswordField fx:id="passwordFieldOldPassword" prefHeight="34.0"
+                                                               prefWidth="348.0" promptText="Contraseña antigua"/>
+                                                <PasswordField fx:id="passwordFieldNewPassword" prefHeight="34.0"
+                                                               prefWidth="348.0" promptText="Contraseña nueva"/>
+                                                <PasswordField fx:id="passwordFieldRepeatPassword" prefHeight="34.0"
+                                                               prefWidth="348.0" promptText="Repite contraseña nueva"/>
+                                                <Button fx:id="buttonAcceptPassword" defaultButton="true" disable="true"
+                                                        mnemonicParsing="false" prefHeight="38.0" prefWidth="371.0"
+                                                        styleClass="button-raised" text="CAMBIAR"/>
+                                            </children>
+                                        </VBox>
+                                        <VBox fx:id="vBoxDelete" prefHeight="200.0" prefWidth="363.0" spacing="10.0"
+                                              visible="false">
+                                            <children>
+                                                <PasswordField fx:id="passwordFieldConfirmPassword" prefHeight="34.0"
+                                                               prefWidth="348.0"
+                                                               promptText="Escribe tu contraseña para borrar"/>
+                                                <Button fx:id="buttonConfirmDelete" defaultButton="true" disable="true"
+                                                        mnemonicParsing="false" prefHeight="38.0" prefWidth="383.0"
+                                                        style="-fx-background-color: #FF3333;"
+                                                        styleClass="button-raised" text="CONFIRMAR BORRADO"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
                             </children>
                         </VBox>
                     </children>
