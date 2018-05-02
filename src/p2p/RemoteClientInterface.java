@@ -19,6 +19,6 @@ public interface RemoteClientInterface extends Remote {
 
     void startChat(String username) throws FriendNotFoundException, OfflineFriendException, UserNotFoundException, IncorrectSessionException, IncorrectPasswordException, RemoteException;
 
-    void receiveMessage(String username, String message);
+    void receiveMessage(String username, String message) throws RemoteException;
 
 }

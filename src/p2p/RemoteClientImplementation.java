@@ -33,7 +33,7 @@ public class RemoteClientImplementation extends UnicastRemoteObject implements R
         }
     }
 
-    public void receiveMessage(String username, String message) {
+    public void receiveMessage(String username, String message) throws RemoteException {
         ListHelper.getListHelper().getChat(username).add(message);
     }
 

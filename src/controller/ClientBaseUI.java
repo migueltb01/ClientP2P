@@ -186,8 +186,12 @@ public class ClientBaseUI {
         buttonSend.setOnAction(event -> {
             ObservableList<String> messages = listViewChat.getItems();
             messages.add(User.getUser().getUsername() + " dijo:\n       " + textFieldMessage.getText());
-            ListHelper.getListHelper().getFriendObject(labelChatUsername.getText()).receiveMessage(User.getUser().getUsername(),
-                    User.getUser().getUsername() + " dijo:\n       " + textFieldMessage.getText());
+            try {
+                ListHelper.getListHelper().getFriendObject(labelChatUsername.getText()).receiveMessage(User.getUser().getUsername(),
+                        User.getUser().getUsername() + " dijo:\n       " + textFieldMessage.getText());
+            } catch (Exception e) {
+                showError(e.getMessage());
+            }
             textFieldMessage.setText("");
         });
 
@@ -198,6 +202,7 @@ public class ClientBaseUI {
         listViewFriends.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                labelChatUsername.setText(newValue);
                 if (!ListHelper.getListHelper().isChatCreated(newValue)) {
                     try {
                         ListHelper.getListHelper().createChat(newValue);
@@ -207,7 +212,6 @@ public class ClientBaseUI {
                     }
                 }
                 chat = ListHelper.getListHelper().getChat(newValue);
-                labelChatUsername.setText(newValue);
                 listViewChat.setItems(chat);
                 buttonSend.setDisable(false);
                 buttonAttach.setDisable(false);

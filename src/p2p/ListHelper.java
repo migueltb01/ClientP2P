@@ -17,7 +17,7 @@ public class ListHelper {
     private ListHelper() {
         this.friends = FXCollections.observableArrayList();
         this.requests = FXCollections.observableArrayList();
-        this.chats = new HashMap<>();
+        this.chats = new HashMap<String, Friend>();
     }
 
     public static ListHelper getListHelper() {
@@ -60,10 +60,8 @@ public class ListHelper {
         friends.remove(user);
     }
 
-    public void createChat(String username) throws FriendNotFoundException, OfflineFriendException, UserNotFoundException, IncorrectSessionException, IncorrectPasswordException, RemoteException {
-        chats.put(username, new Friend(Connection.getConnection().getServerObject().startChat(
-                Connection.getConnection().getClientObject(), User.getUser().getUsername(), username, User.getUser().getPassword()
-        ), FXCollections.observableArrayList()));
+    public void createChat(String username) throws NullPointerException, FriendNotFoundException, OfflineFriendException, UserNotFoundException, IncorrectSessionException, IncorrectPasswordException, RemoteException {
+        chats.put(username, new Friend(Connection.getConnection().getServerObject().startChat(Connection.getConnection().getClientObject(), User.getUser().getUsername(), username, User.getUser().getPassword()), FXCollections.observableArrayList()));
     }
 
     public boolean isChatCreated(String username) {
