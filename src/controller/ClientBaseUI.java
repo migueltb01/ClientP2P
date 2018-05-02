@@ -1,5 +1,8 @@
 package controller;
 
+import exceptions.IncorrectPasswordException;
+import exceptions.IncorrectSessionException;
+import exceptions.UserNotFoundException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -332,9 +335,29 @@ public class ClientBaseUI {
         textFieldOldPassword.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (equals(User.getUser().getPassword())) {
-
+                if (User.sha256(newValue).equals(User.getUser().getPassword()) && textFieldNewPassword.getText().equals(textFieldRepeatPassword.getText())) {
+                    buttonAcceptPassword.setDisable(false);
+                } else {
+                    buttonAcceptPassword.setDisable(true);
                 }
+            }
+        });
+
+        buttonAcceptPassword.setOnAction(event -> {
+            try {
+                Connection.getConnection().getServerObject().changePassword(Connection.getConnection().getClientObject(), User.getUser().getUsername(), User.getUser().getPassword(), User.sha256(textFieldNewPassword.getText()));
+                buttonAcceptPassword.setDisable(false);
+
+                textFieldOldPassword.setVisible(false);
+                textFieldNewPassword.setVisible(false);
+                textFieldRepeatPassword.setVisible(false);
+
+                buttonAcceptPassword.setVisible(false);
+
+                showError("Contraseña cambiada");
+
+            } catch (Exception e) {
+                showError(e.getMessage());
             }
         });
 
