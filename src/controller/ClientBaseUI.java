@@ -349,7 +349,7 @@ public class ClientBaseUI {
 
         passwordFieldNewPassword.textProperty().addListener(passwordCheck);
 
-        passwordFieldConfirmPassword.textProperty().addListener(passwordCheck);
+        passwordFieldRepeatPassword.textProperty().addListener(passwordCheck);
 
         buttonAcceptPassword.setOnAction(event -> {
             try {
