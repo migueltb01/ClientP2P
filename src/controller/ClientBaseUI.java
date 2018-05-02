@@ -181,7 +181,7 @@ public class ClientBaseUI {
         controller.setError(error);
 
         stage.setScene(new Scene(root));
-        stage.setTitle("Error");
+        stage.setTitle("Aviso");
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(
                 ((Node) buttonFriends).getScene().getWindow());
