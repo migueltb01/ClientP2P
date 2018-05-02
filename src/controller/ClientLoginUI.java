@@ -24,7 +24,6 @@ import p2p.ListHelper;
 import p2p.User;
 
 import java.io.IOException;
-import java.security.MessageDigest;
 
 public class ClientLoginUI {
 
@@ -71,23 +70,6 @@ public class ClientLoginUI {
     @FXML
     TextField passwordFieldRepeatPasswordRegister;
 
-    private static String sha256(String base) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes("UTF-8"));
-            StringBuffer hexString = new StringBuffer();
-
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     @FXML
     private void initialize() {
 
@@ -125,9 +107,9 @@ public class ClientLoginUI {
 
             try {
                 Connection.connect();
-                User.setUser(textFieldUser.getText(), sha256(passwordFieldPassword.getText()));
+                User.setUser(textFieldUser.getText(), User.sha256(passwordFieldPassword.getText()));
                 ListHelper.getListHelper().getFriends().addAll(Connection.getConnection().getServerObject().logIn(textFieldUser.getText(),
-                        sha256(passwordFieldPassword.getText()),
+                        User.sha256(passwordFieldPassword.getText()),
                         Connection.getConnection().getClientObject()));
                 callBaseScreen();
 
@@ -173,10 +155,10 @@ public class ClientLoginUI {
                 if (!passwordFieldPasswordRegister.getText().equals(passwordFieldRepeatPasswordRegister.getText()))
                     throw new PasswordMatchException();
                 Connection.connect();
-                Connection.getConnection().getServerObject().registerUser(textFieldUserRegister.getText(), sha256(passwordFieldPasswordRegister.getText()));
-                User.setUser(textFieldUserRegister.getText(), sha256(passwordFieldPasswordRegister.getText()));
+                Connection.getConnection().getServerObject().registerUser(textFieldUserRegister.getText(), User.sha256(passwordFieldPasswordRegister.getText()));
+                User.setUser(textFieldUserRegister.getText(), User.sha256(passwordFieldPasswordRegister.getText()));
                 ListHelper.getListHelper().getFriends().addAll(Connection.getConnection().getServerObject().logIn(textFieldUserRegister.getText(),
-                        sha256(passwordFieldPasswordRegister.getText()),
+                        User.sha256(passwordFieldPasswordRegister.getText()),
                         Connection.getConnection().getClientObject()));
                 callBaseScreen();
 
