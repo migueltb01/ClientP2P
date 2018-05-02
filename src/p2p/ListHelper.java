@@ -60,13 +60,13 @@ public class ListHelper {
         friends.remove(user);
     }
 
-    public void addChat(String username) throws FriendNotFoundException, OfflineFriendException, UserNotFoundException, IncorrectSessionException, IncorrectPasswordException, RemoteException {
+    public void createChat(String username) throws FriendNotFoundException, OfflineFriendException, UserNotFoundException, IncorrectSessionException, IncorrectPasswordException, RemoteException {
         chats.put(username, new Friend(Connection.getConnection().getServerObject().startChat(
                 Connection.getConnection().getClientObject(), User.getUser().getUsername(), username, User.getUser().getPassword()
         ), FXCollections.observableArrayList()));
     }
 
-    public boolean isChatStarted(String username) {
+    public boolean isChatCreated(String username) {
         return chats.containsKey(username);
     }
 

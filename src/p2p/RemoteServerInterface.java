@@ -2,24 +2,27 @@
 package p2p;
 
 // Imports
+
 import exceptions.*;
-import java.util.ArrayList;
-import java.rmi.*;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 // Remote P2P server interface
 public interface RemoteServerInterface extends Remote {
 
 	// Register a new user
 	public void registerUser(String username, String password) throws RepeatedUsernameException,
-		RemoteException,
+            RemoteException,
 		SQLException;
 
 	// Delete registered user
 	public void deleteUser(RemoteClientInterface client, String username, String password) throws UserNotFoundException,
 		IncorrectPasswordException,
 		IncorrectSessionException,
-		RemoteException,
+            RemoteException,
 		SQLException;
 
 	// Log in as specified user through specified client
@@ -43,7 +46,7 @@ public interface RemoteServerInterface extends Remote {
 		IncorrectPasswordException,
 		IncorrectSessionException,
 		RepeatedFriendshipException,
-		RemoteException,
+            RemoteException,
 		SQLException;
 
 	// Invoked by online user to unfriend another user
@@ -68,7 +71,7 @@ public interface RemoteServerInterface extends Remote {
 		throws UserNotFoundException,
 		IncorrectPasswordException,
 		IncorrectSessionException,
-		RemoteException,
+            RemoteException,
 		SQLException;
 
 	// Invoked by an online user to start a chat with another user

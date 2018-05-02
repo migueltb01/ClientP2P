@@ -198,9 +198,9 @@ public class ClientBaseUI {
         listViewFriends.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!ListHelper.getListHelper().isChatStarted(newValue)) {
+                if (!ListHelper.getListHelper().isChatCreated(newValue)) {
                     try {
-                        ListHelper.getListHelper().addChat(newValue);
+                        ListHelper.getListHelper().createChat(newValue);
                         ListHelper.getListHelper().getFriendObject(labelChatUsername.getText()).startChat(User.getUser().getUsername());
                     } catch (Exception e) {
                         showError(e.getMessage());

@@ -28,8 +28,8 @@ public class RemoteClientImplementation extends UnicastRemoteObject implements R
     }
 
     public void startChat(String username) throws FriendNotFoundException, OfflineFriendException, UserNotFoundException, IncorrectSessionException, IncorrectPasswordException, RemoteException {
-        if (!ListHelper.getListHelper().isChatStarted(username)) {
-            ListHelper.getListHelper().addChat(username);
+        if (!ListHelper.getListHelper().isChatCreated(username)) {
+            ListHelper.getListHelper().createChat(username);
         }
     }
 
