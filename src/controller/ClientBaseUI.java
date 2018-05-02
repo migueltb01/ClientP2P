@@ -349,7 +349,7 @@ public class ClientBaseUI {
 
         passwordFieldNewPassword.textProperty().addListener(passwordCheck);
 
-        passwordFieldConfirmPassword.textProperty().addListener(passwordCheck);
+        passwordFieldRepeatPassword.textProperty().addListener(passwordCheck);
 
         buttonAcceptPassword.setOnAction(event -> {
             try {
@@ -359,6 +359,11 @@ public class ClientBaseUI {
                 vBoxChangePassword.setVisible(false);
 
                 showError("Contraseña cambiada");
+                User.getUser().setPassword(User.sha256(passwordFieldNewPassword.getText()));
+
+                passwordFieldNewPassword.setText("");
+                passwordFieldRepeatPassword.setText("");
+                passwordFieldOldPassword.setText("");
 
             } catch (Exception e) {
                 showError(e.getMessage());
